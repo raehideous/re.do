@@ -1,0 +1,46 @@
+/* montserrat-regular - latin */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/montserrat-v12-latin-regular.eot'); /* IE9 Compat Modes */
+  src: local('Montserrat Regular'), local('Montserrat-Regular'),
+       url('../fonts/montserrat-v12-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../fonts/montserrat-v12-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('../fonts/montserrat-v12-latin-regular.woff') format('woff'), /* Modern Browsers */
+       url('../fonts/montserrat-v12-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('../fonts/montserrat-v12-latin-regular.svg#Montserrat') format('svg'); /* Legacy iOS */
+}
+
+.App {
+  margin:0;
+}
+
+.AppContainer {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+

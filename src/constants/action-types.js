@@ -1,0 +1,3 @@
+export const CREATE_TASK = "CREATE_TASK";
+export const CREATE_TASK_LIST = "CREATE_TASK_LIST";
+export const SET_TASK_VIEW_MODE = "SET_TASK_VIEW_MODE";
