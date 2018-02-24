@@ -1,5 +1,36 @@
+
+html {
+  height: 100%
+}
 body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  height: 100%;
+  background-color: #303030;
 }
+
+input {
+  outline: none;
+}
+
+.input:placeholder {
+  color: #636c72;
+}
+
+
+.input-dark {
+  color: #cacaca ;
+  padding: 5px;
+  background-color: #303030;
+}
+
+.input-dark:focus {
+  color: #aaaaaa;
+  background-color: #303030;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-color: #ff0000;
+}
+

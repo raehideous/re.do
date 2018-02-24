@@ -1,5 +1,5 @@
 export default {
-  tasksLists: [
+  taskLists: [
       {
           "id": 0,
           "name": "Shopping",

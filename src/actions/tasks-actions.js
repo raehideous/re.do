@@ -1,7 +1,9 @@
 import * as ActionTypes from "../constants/action-types";
 
-export const createTask = task => ( {
-	type: ActionTypes.CREATE_TASK,
+export const addTask = task => ( {
+	type: ActionTypes.ADD_TASK,
 	payload: task
 });
+
+
 

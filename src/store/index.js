@@ -1,5 +1,4 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import { routerMiddleware } from 'react-router-redux';
 import thunk from 'redux-thunk';
 import combinedReducers from '../reducers';
 import data from './testData';
@@ -8,7 +7,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 const configureStore = preloadedState => {
 
-  const enhancer = compose(
+  const enhancer = composeEnhancers(
     applyMiddleware(
       thunk
     ),
@@ -18,9 +17,9 @@ const configureStore = preloadedState => {
 };
 
 const store = configureStore( {
-  tasksLists: data.tasksLists,
+  taskLists: data.taskLists,
   tasks: data.tasks,
-  chosenListId: 2
+  chosenList: null
 });
 
 

@@ -1,3 +1,4 @@
-export const CREATE_TASK = "CREATE_TASK";
-export const CREATE_TASK_LIST = "CREATE_TASK_LIST";
-export const SET_TASK_VIEW_MODE = "SET_TASK_VIEW_MODE";
+export const ADD_TASK = "ADD_TASK";
+export const ADD_TASK_LIST = "ADD_TASK_LIST";
+export const CHOOSE_TASK_LIST = "CHOOSE_TASK_LIST";
+export const INC_TASKS_COUNT = "INC_TASKS_COUNT";
