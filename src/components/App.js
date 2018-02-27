@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
 import Todo from './Todo';
-import CreateBox from './CreateBox';
-import Filters from './Filters';
 
 class App extends Component {
   render() {
@@ -13,10 +11,8 @@ class App extends Component {
         <header className="App-header">
           <h1 className="App-title">Welcome to Re.do lists</h1>
         </header>
-          <div className="container vert-offset-top-2 mt-3">
-            <CreateBox chosenList={this.props.chosenList}/>
+          <div className="container">
             <Todo chosenList={this.props.chosenList}/>
-            <Filters />
           </div>
       </div>
     );

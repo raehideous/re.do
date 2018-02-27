@@ -1,8 +1,17 @@
 
-.list-item {
-  color: #FF0000;
-  background-color: #00FF00
+.list-group {
+
 }
+
+.text-strike {
+  text-decoration: line-through;
+}
+
+.list-item {
+  background-color: #000000;
+  margin-top: 3px;
+}
+
 .list-item:hover {
   background-color: #212121;
 }

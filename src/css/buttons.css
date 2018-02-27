@@ -1,0 +1,67 @@
+.icon-button {
+  background-color: #0000ff;
+  min-height: 85%;
+  height: 85%;
+}
+
+.icon-button:hover {
+  cursor: pointer;
+  background-color: #fa0000;
+}
+
+.circle-ghost-button {
+  display: inline-block;
+  font-weight: bold;
+  background-color: transparent;
+  padding: 3px;
+  color: #f56468;
+  border-radius: 50%;
+  min-width: 40px;
+  border: 3px solid #f56468;
+  text-align: center;
+  outline: none !important;
+  text-decoration: none;
+  transition: background-color 0.3s ease-out,
+              color 0.3s ease-out;
+}
+
+.ghost-button-thick-border {
+  display: inline-block;
+  font-weight: bold;
+  background-color: transparent;
+  padding: 3px;
+  color: #f56468;
+  border-radius: 20px;
+  border: 3px solid #f56468;
+  text-align: center;
+  outline: none !important;
+  text-decoration: none;
+  transition: background-color 0.3s ease-out,
+              color 0.3s ease-out;
+}
+
+.ghost-button-thick-border:hover:enabled,
+.ghost-button-thick-border:active:enabled,
+.circle-ghost-button:hover:enabled,
+.circle-ghost-button:active:enabled {
+  background-color: #f56468;
+  color: #27184f;
+  transition: background-color 0.3s ease-in,
+              color 0.3s ease-in;
+}
+
+
+.active:disabled {
+  background-color: #b0585a;
+}
+
+.active {
+  background-color: #f56468;
+  color: #27184f !important;
+}
+
+.ghost-button-thick-border:disabled,
+.circle-ghost-button:disabled {
+  color: #b0585a;
+  border: 3px solid #b0585a;
+}

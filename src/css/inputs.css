@@ -1,0 +1,43 @@
+input {
+  outline: none;
+}
+
+
+.text-input-dark {
+  width: 100%;
+  color: #CAD0ED;
+  padding: 5px;
+  padding-left: 12px;
+  border-radius: 6px;
+  background-color: #180840;
+  border: none;
+}
+
+.text-input-dark:focus {
+  transition: width 0.3s ease-in-out;
+  background-color: #180840;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-bottom: solid 3px #f56468;
+}
+
+
+.input:placeholder {
+  color: #636c72;
+}
+
+.text-infdput-dark{
+    position:relative;
+    left:0;
+    width:0%;
+    height:2px;
+    background-color:#1784E1;
+    border:none;
+    margin-top:0;
+    margin-left:0;
+    margin-bottom:20px;
+    transition:0.5s;
+}
+input:focus + .text-inpdfut-dark{
+    width:100%;
+}

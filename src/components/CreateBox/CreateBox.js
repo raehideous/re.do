@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Button, InputGroup, Input } from 'reactstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../../actions';
@@ -81,16 +80,24 @@ class CreateBox extends Component {
 
   render() {
     return (
-        <InputGroup>
-          <Input
-            type="text"
-            className="input-dark"
-            placeholder={this.state.placeholder}
-            value={ this.state.inputText }
-            onChange={ this.handleChange( 'inputText') }
-            onKeyPress={ this.catchReturn }/>
-          <Button outline color="danger" onClick={ this.handleClickCreate }>{Strings.CREATE}</Button>
-        </InputGroup>
+        <div className="row">
+          <div className="col-md-10">
+            <input
+              type="text"
+              className="text-input-dark"
+              placeholder={this.state.placeholder}
+              value={ this.state.inputText }
+              onChange={ this.handleChange( 'inputText') }
+              onKeyPress={ this.catchReturn }/>
+          </div>
+
+          <div className="col-md-2">
+            <button className="ghost-button-thick-border col"
+              onClick={ this.handleClickCreate }>
+              {Strings.CREATE}
+            </button>
+          </div>
+        </div>
     )
   }
 
