@@ -2,79 +2,83 @@ import React, { Component } from 'react';
 import './ItemsList.css';
 
 class ItemList extends Component {
+  constructor(props) {
+    super(props);
 
-  removeTask(task) {
-
+    this.state = {
+      currModifiedItemId: null
+    };
   }
 
-  modifyTask(task) {
-
+  handleRemove(evt, item) {
+    evt.stopPropagation();
+    this.props.onItemRemove(item);
   }
 
-  toggleComplete(task) {
+  handleModify(evt, item) {
+    evt.stopPropagation();
+    console.log("modifying: " + item.id);
 
+    this.setState({
+      currModifiedItemId: item.id
+    });
+  }
+
+  toggleComplete(item) {
+    this.props.onToggleComplete(item);
   }
 
   toggleEdit(task) {
 
   }
 
+  renderItemData(item) {
+    if (this.state.currModifiedItemId === item.id) {
+      return (
+        <div>
+          modify here
+        </div>
+      )
+    } else {
+      let badge = item.todos_count ? <span className="badge app-badge badge-pill ml-1">{item.todos_count}</span> : null;
+      let className = "text-muted";
+      return (
+        <div className={item.is_complete ? className + ' text-strike' : className} >
+          {item.name}
+          {badge}
+        </div>
+      )
+    }
+  }
 
   render() {
 		return (
       <div className="mt-3">
-        <ul className="list-group">
+        <ul className="container">
           {this.props.listItems.map( item => {
-            let badge;
-            if(item.todos_count) {
-              badge = (<span className="badge badge-danger badge-pill ml-1">{item.todos_count}</span>);
-            }
-
             return (
 
-                <li className="list-group-item"
+                <li className="row mt-2 list-item-dark"
                     key={item.id}
                     onClick={ (e) => { this.props.onListItemClick(item) } } >
 
-                    <div className="row">
-
-                      <div>
-                        <div className={item.is_complete ? 'text-strike' : "" } >
-                          {item.name}
-                          {badge}
-                        </div>
-
+                      <div className="col my-auto">
+                        {this.renderItemData(item)}
                       </div>
 
 
-                      <div className="pull-right">
-                        <div className="btn-group pull-right">
-                          <button className="btn" type="button"
-                            onClick={ (e) => {
-                              e.stopPropagation();
-                              console.log("clicked edit?!")
-                            }}>
-                            <i className="fa fa-edit fa-lg" />
+                      <div className="pr-3">
+                          <button className="btn mr-1" type="button"
+                            onClick={ (e) => this.handleModify(e, item) }>
+                            <i className="fa fa-edit" />
                           </button>
 
                           <button className="btn" type="button"
-                            onClick={ (e) => {
-                              e.stopPropagation();
-                              console.log("clicked edit?!")
-                            }}>
-                            <i className="fa fa-trash fa-lg" />
+                            onClick={ (e) => this.handleRemove(e, item) }>
+                            <i className="fa fa-trash" />
                           </button>
-                        </div>
                       </div>
-
-                    </div>
-
-
-
-
-
                 </li>
-
             )
           })}
         </ul>

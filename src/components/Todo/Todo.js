@@ -45,6 +45,19 @@ class Todo extends Component {
     }
   }
 
+  onItemRemove = item => {
+    if(!this.props.chosenList) {
+      this.props.removeTaskList(item);
+    } else {
+      this.props.removeTask(item);
+      this.props.decTaskCountForListWithId(this.props.chosenList.id);
+    }
+  }
+
+  onToggleComplete = item => {
+      console.log("toggle complete!");
+  }
+
   componentDidMount() {
     this.loadNewListWithHeader(this.props);
   }
@@ -80,7 +93,7 @@ class Todo extends Component {
       <div className="mt-2">
         <div className="row">
 
-          <div className="col-md-1">
+          <div className="col-sm-1">
             <button className="circle-ghost-button"
               disabled={!this.props.chosenList}
               onClick={this.onBackClick}>
@@ -88,11 +101,10 @@ class Todo extends Component {
             </button>
           </div>
 
-          <div className="col-md-11">
-            <h2 className="text-muted">{this.state.headerText}</h2>
+          <div className="ml-3">
+            <h3 className="text-muted">{this.state.headerText}</h3>
           </div>
         </div>
-
 
         <CreateBox chosenList={this.props.chosenList}/>
         <hr />
@@ -102,7 +114,11 @@ class Todo extends Component {
           disabled={!this.props.chosenList}
         />
 
-        <ItemsList listItems={filteredListitems} onListItemClick={this.onListItemClick} />
+        <ItemsList
+            listItems={filteredListitems}
+            onListItemClick={this.onListItemClick}
+            onItemRemove={this.onItemRemove}
+            onToggleComplete={this.onToggleComplete}/>
       </div>
     )
   }

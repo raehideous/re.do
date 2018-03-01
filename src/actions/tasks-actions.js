@@ -6,4 +6,7 @@ export const addTask = task => ( {
 });
 
 
-
+export const removeTask = task => ( {
+	type: ActionTypes.REMOVE_TASK,
+	payload: task
+});

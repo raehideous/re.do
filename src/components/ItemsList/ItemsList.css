@@ -1,17 +1,22 @@
 
-.list-group {
-
-}
-
 .text-strike {
   text-decoration: line-through;
 }
 
-.list-item {
-  background-color: #000000;
-  margin-top: 3px;
+.app-badge {
+  background-color: #27184F;
+  color: #F56468;
+  border-color: #F56468;
 }
 
-.list-item:hover {
-  background-color: #212121;
+.text-dark {
+  color: #ff0000 !important;
+}
+
+.list-item-dark {
+  background-color: #180840;
+}
+
+.list-item-dark:hover {
+  background-color: #706AA0;
 }
