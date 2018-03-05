@@ -1,34 +1,71 @@
-import createReducer from '../lib/createReducer';
 import * as ActionTypes from "../constants/action-types";
+import typeToReducer from 'type-to-reducer'
 
 
-export const tasks = createReducer( {}, {
-	[ActionTypes.ADD_TASK](state,action) {
-		 let tasks = state.slice();
-     tasks.unshift( action.payload );
-		 return tasks;
+const initialState = {
+  data: [],
+  isPending: false,
+  error: false
+}
+
+const PENDING = (state) => ({
+	...state,
+	isPending: true
+})
+
+const REJECTED = (state, action) => ({
+	...state,
+	error: action.payload
+})
+
+export const tasks = typeToReducer({
+	[ActionTypes.FETCH_TASKS]: {
+		PENDING,
+		REJECTED,
+		FULFILLED: (state, action) => ({
+			error: false,
+      isPending: false,
+			data: action.payload
+		})
 	},
-	[ActionTypes.REMOVE_TASK](state,action) {
-		 const taskToRemIdx = state.findIndex(item => {
-			 return item.id === action.payload.id && item.todo_list === action.payload.todo_list
-		 });
-		 let tasks = state.slice();
-		 tasks.splice(taskToRemIdx, 1);
-		 return tasks;
+	[ActionTypes.CREATE_TASK]: {
+		PENDING,
+		REJECTED,
+		FULFILLED: (state, action) => {
+      let newData = state.data;
+      newData.unshift(action.payload);
+
+      return {
+        error: false,
+        isPending: false,
+        data: newData
+      }
+    }
+  },
+	[ActionTypes.UPDATE_TASK]: {
+		PENDING,
+		REJECTED,
+		FULFILLED: (state, action, list) => {
+      const idx = state.data.find( item => item.id === list.id );
+      const newData = state.data[idx] = action.payload;
+
+      return {
+			  error: false,
+        isPending: false,
+			  data: newData
+		  }
+  }
 	},
-	[ActionTypes.MODIFY_TASK](state,action) {
-		let modifiedTask = action.payload;
-		let tasks = state.slice();
-
-		 for(let i in tasks) {
-			 	if( tasks[i].id === modifiedTask.id && tasks[i].todo_list === modifiedTask.todo_list ) {
-					tasks[i] = modifiedTask;
-					break;
-				}
-		 }
-		 return tasks;
-	},
-});
-
-
-
+	[ActionTypes.DELETE_TASK]: {
+		PENDING,
+		REJECTED,
+		FULFILLED: (state, action) => {
+      const newData = state.data.filter( list => list.id !== action.meta.id);
+      return {
+        error: false,
+        isPending: false,
+      	data: newData
+      }
+    }
+	}
+}, initialState);

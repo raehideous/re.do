@@ -1,7 +1,13 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+import { routerMiddleware } from 'react-router-redux';
+import { createHashHistory as createHistory } from 'history';
 import combinedReducers from '../reducers';
-import data from './testData';
+import promiseMiddleware from 'redux-promise-middleware';
+
+import logger from 'redux-logger';
+
+export const history = createHistory();
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
@@ -9,7 +15,10 @@ const configureStore = preloadedState => {
 
   const enhancer = composeEnhancers(
     applyMiddleware(
-      thunk
+      thunk,
+  //    logger,
+      promiseMiddleware(),
+      routerMiddleware(history)
     ),
   );
 
@@ -17,9 +26,12 @@ const configureStore = preloadedState => {
 };
 
 const store = configureStore( {
-  taskLists: data.taskLists,
-  tasks: data.tasks,
-  chosenList: null
+  taskLists: {
+    isPending: false,
+    isError: false,
+    data: [],
+  },
+  tasks: [],
 });
 
 

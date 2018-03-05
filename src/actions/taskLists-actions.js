@@ -1,29 +1,43 @@
 import * as ActionTypes from "../constants/action-types";
+import { VentureDevsAPI } from "../constants/apis";
 
-export const addTaskList = taskList => ( {
-	type: ActionTypes.ADD_TASK_LIST,
-	payload: taskList
+export const fetchTaskLists = () => ({
+	type: ActionTypes.FETCH_TASK_LISTS,
+	payload: fetch( VentureDevsAPI + `/todolists/`)
+			.then( resp => resp.json() )
 });
 
-export const removeTaskList = task => ( {
-	type: ActionTypes.REMOVE_TASK_LIST,
-	payload: task
+export const createTaskList = name => ({
+	type: ActionTypes.CREATE_TASK_LIST,
+	payload: fetch( VentureDevsAPI + `/todolists/`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name })
+    }).then( resp => resp.json() )
 });
 
-export const chooseTaskList = taskList => ( {
-	type: ActionTypes.CHOOSE_TASK_LIST,
-	payload: taskList
+export const updateTaskList = list => ({
+	type: ActionTypes.UPDATE_TASK_LIST,
+	meta: {
+		id: list.id
+	},
+	payload: fetch( VentureDevsAPI + `/todolists/${list.id}/`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ list })
+    }).then( resp => resp.json() )
 });
 
-export const incTaskCountForListWithId = listId => ( {
-	type: ActionTypes.INC_TASKS_COUNT,
-	payload: listId
+export const deleteTaskList = listId => ({
+	type: ActionTypes.DELETE_TASK_LIST,
+	meta: {
+		id: listId
+	},
+	payload: fetch( VentureDevsAPI + `/todolists/${listId}/`, {
+      method: 'DELETE',
+    })
 });
 
-export const decTaskCountForListWithId = listId => ( {
-	type: ActionTypes.DEC_TASKS_COUNT,
-	payload: listId
-});
-
-
-
+export const getTaskListById = state => id => {
+		return state.taskLists.data.find( list => list.id === +id);
+}

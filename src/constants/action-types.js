@@ -1,11 +1,10 @@
-export const ADD_TASK = "ADD_TASK";
-export const REMOVE_TASK = "REMOVE_TASK";
-export const MODIFY_TASK = "MODIFY_TASK";
+export const FETCH_TASKS = "FETCH_TASKS";
+export const CREATE_TASK = "CREATE_TASK";
+export const DELETE_TASK = "DELETE_TASK";
+export const UPDATE_TASK = "UPDATE_TASK";
 
-export const ADD_TASK_LIST = "ADD_TASK_LIST";
-export const REMOVE_TASK_LIST = "REMOVE_TASK_LIST";
-export const CHOOSE_TASK_LIST = "CHOOSE_TASK_LIST";
-export const MODIFY_TASK_LIST = "MODIFY_TASK_LIST";
+export const FETCH_TASK_LISTS = "FETCH_TASK_LISTS";
+export const CREATE_TASK_LIST = "CREATE_TASK_LIST";
+export const DELETE_TASK_LIST = "DELETE_TASK_LIST";
+export const UPDATE_TASK_LIST = "UPDATE_TASK_LIST";
 
-export const INC_TASKS_COUNT = "INC_TASKS_COUNT";
-export const DEC_TASKS_COUNT = "DEC_TASKS_COUNT";

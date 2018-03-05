@@ -1,19 +1,27 @@
-.icon-button {
-  background-color: #0000ff;
+.icon-button-sm {
+  background-color: transparent;
+  width: 2em;
+  height: 2em;
+  color: #f56468;
+  border: 1px solid #f56468;
+  border-radius: 5px;
   min-height: 85%;
   height: 85%;
 }
 
-.icon-button:hover {
+.icon-button-sm:hover,
+.icon-button-sm:active {
   cursor: pointer;
-  background-color: #fa0000;
+  color: #27184f;
+  background-color: #f56468;
+  transition: background-color 0.2s ease-in,
+              color 0.2s ease-in;
 }
 
 .circle-ghost-button {
   display: inline-block;
   font-weight: bold;
   background-color: transparent;
-  padding: 2px 3px 0 0;
   color: #f56468;
   border-radius: 50%;
   min-width: 35px;
@@ -50,6 +58,10 @@
               color 0.3s ease-in;
 }
 
+.ghost-button-thick-border-checked {
+  background-color: #f56468;
+  color: #27184f;
+}
 
 .active:disabled {
   background-color: #b0585a;
