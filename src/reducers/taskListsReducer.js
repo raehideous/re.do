@@ -24,8 +24,7 @@ export const taskLists = typeToReducer({
 		PENDING,
 		REJECTED,
 		FULFILLED: (state, action) => ({
-			error: false,
-      isPending: false,
+			...initialState,
 			data: action.payload
 		})
 	},
@@ -37,8 +36,7 @@ export const taskLists = typeToReducer({
       newData.unshift(action.payload);
 
       return {
-        error: false,
-        isPending: false,
+        ...initialState,
         data: newData
       }
     }
@@ -46,13 +44,13 @@ export const taskLists = typeToReducer({
 	[ActionTypes.UPDATE_TASK_LIST]: {
 		PENDING,
 		REJECTED,
-		FULFILLED: (state, action, list) => {
-      const idx = state.data.find( item => item.id === list.id );
-      const newData = state.data[idx] = action.payload;
+		FULFILLED: (state, action) => {
+      const idx = state.data.findIndex( item => item.id === action.meta.id );
+      state.data[idx] = action.payload;
+      const newData = state.data;
 
       return {
-			  error: false,
-        isPending: false,
+			  ...initialState,
 			  data: newData
 		  }
   }
@@ -63,8 +61,7 @@ export const taskLists = typeToReducer({
 		FULFILLED: (state, action) => {
       const newData = state.data.filter( list => list.id !== action.meta.id);
       return {
-        error: false,
-        isPending: false,
+        ...initialState,
       	data: newData
       }
     }

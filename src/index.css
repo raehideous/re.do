@@ -9,3 +9,16 @@ body {
   height: 100%;
   background-color: #27184f;
 }
+
+
+.TEST1 {
+  background-color: #fa0000;
+}
+
+.TEST2 {
+  background-color: #00fa00;
+}
+
+.TEST2 {
+  background-color: #0000fa;
+}

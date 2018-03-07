@@ -1,0 +1,22 @@
+.circle-ghost-button {
+  background-color: transparent;
+  color: #f56468;
+  border-radius: 50%;
+  min-width: 35px;
+  border: 3px solid #f56468;
+  transition: background-color 0.3s ease-out,
+              color 0.3s ease-out;
+}
+
+.circle-ghost-button:hover:enabled,
+.circle-ghost-button:active:enabled {
+  background-color: #f56468;
+  color: #27184f;
+  transition: background-color 0.3s ease-in,
+              color 0.3s ease-in;
+}
+
+.circle-ghost-button:disabled {
+  color: #b0585a;
+  border: 3px solid #b0585a;
+}

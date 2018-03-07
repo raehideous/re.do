@@ -24,7 +24,7 @@ export const updateTaskList = list => ({
 	payload: fetch( VentureDevsAPI + `/todolists/${list.id}/`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ list })
+      body: JSON.stringify(list)
     }).then( resp => resp.json() )
 });
 

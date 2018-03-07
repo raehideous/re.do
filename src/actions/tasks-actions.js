@@ -22,18 +22,18 @@ export const updateTask = task => ({
 		id: task.id
 	},
 	payload: fetch( VentureDevsAPI + `/todos/${task.id}`, {
-      method: 'POST',
+      method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify( task ),
     }).then( resp => resp.json() ),
 });
 
-export const deleteTask = task => ({
+export const deleteTask = taskId => ({
 	type: ActionTypes.DELETE_TASK,
 	meta: {
-		id: task.id
+		id: taskId
 	},
-	payload: fetch( VentureDevsAPI + `/todolists/${task.todo_list}/${task.id}/`, {
+	payload: fetch( VentureDevsAPI + `/todolists/${taskId}/`, {
       method: 'DELETE',
     }),
 });

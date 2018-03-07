@@ -22,7 +22,16 @@ const configureStore = preloadedState => {
     ),
   );
 
-  return createStore( combinedReducers, preloadedState, enhancer );
+  const store =createStore( combinedReducers, preloadedState, enhancer );
+
+  if (module.hot) {
+    module.hot.accept('../reducers', () => {
+      const nextRootReducer = require('../reducers').default;
+      store.replaceReducer(nextRootReducer);
+    });
+  }
+
+  return store;
 };
 
 const store = configureStore( {

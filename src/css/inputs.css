@@ -2,6 +2,10 @@ input {
   outline: none;
 }
 
+.checkbox-dark {
+  background-color: #180840;
+  outline: none;
+}
 
 .text-input-dark {
   width: 100%;
