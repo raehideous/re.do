@@ -7,7 +7,7 @@ import { ActionCreators } from '../../actions';
 import { getTaskListById } from '../../actions/taskLists-actions'
 
 import List from '../../components/List';
-import ListItem from '../../components/ListItem';
+import EditableListItem from '../../components/EditableListItem';
 import RoundButton from '../../components/RoundButton';
 import Search from '../../components/Search';
 import Filters from '../../components/Filters';
@@ -15,15 +15,14 @@ import Filters from '../../components/Filters';
 import CreateForm from '../../components/CreateForm';
 
 class Tasks extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
+    state = {
       searchPattern: '',
       activeFilter: items => items,
-      changedListName: ''
+      changedListName: '',
+      currEditId: null
     };
-  }
+
 
   onNewSearchPattern = evt => {
     this.setState({searchPattern: evt.target.value.toLowerCase()})
@@ -47,10 +46,9 @@ class Tasks extends Component {
   }
 
   handleTaskModify = taskId => {
-    console.log(taskId)
-//    this.setState({
-  //    currModifiedItemId: taskId
-  //  });
+    this.setState({
+      currEditId: taskId
+    });
   }
 
   handleUpdateListName = () => {
@@ -68,21 +66,18 @@ class Tasks extends Component {
 
   handleTaskCheck = (evt, taskId) => {
     const updatedTask = {
-      id: taskId,
-      is_complete: evt.target.checked
+      ...this.props.tasks.data.find( task => task.id === taskId),
+      'is_complete': evt.target.checked
     };
 
-    console.log(JSON.stringify(updatedTask))
     this.props.updateTask(updatedTask);
   }
 
   componentDidMount() {
     const chosenListID = this.props.match.params.id;
-
     if (!this.props.taskList) {
       this.props.fetchTaskLists();
     }
-
     this.props.fetchTasks(chosenListID);
   }
 
@@ -108,28 +103,24 @@ class Tasks extends Component {
           <div className="mt-3">
 
             <div className="row">
-              <div className="container">
-                <div className="row">
-
-                  <div className="col-sm-1">
-                    <RoundButton icon="chevron-left" onClick={this.handleOnBack} />
+                  <div className="col-sm-2">
+                      <RoundButton icon="chevron-left" onClick={this.handleOnBack} />
                   </div>
 
-                  <div className="col-sm-10">
-                    <input type="text" className="text-input-dark"
+                  <div className="col">
+                    <input type="text" className="text-input-dark col"
                          value={changedListName || listName }
                          onChange={this.onListNameChange}
                          placeholder={Strings.LIST_NAME}
                          />
                   </div>
 
-                  <div className="col-sm-1">
-                    <RoundButton icon="check"
+                  <div className="col-sm-2 text-right">
+                    <RoundButton
+                       icon="check"
                       disabled={!changedListName || changedListName === listName}
                       onClick={this.handleUpdateListName} />
                   </div>
-                </div>
-              </div>
             </div>
 
             <div className="row mt-3">
@@ -153,14 +144,15 @@ class Tasks extends Component {
         }
         datasource={filteredTasks}
         renderRow={ task => (
-          <ListItem
+          <EditableListItem
               key={task.id}
               id={task.id}
               name={task.name}
               checked={task.is_complete}
+              textStriked={task.is_complete}
+              editable={task.id === this.state.currEditId}
               onEdit={this.handleTaskModify}
               onRemove={this.handleTaskRemove}
-              onCheck={this.handleTaskCheck}
           />
         ) }
       />

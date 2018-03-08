@@ -3,8 +3,19 @@ input {
 }
 
 .checkbox-dark {
-  background-color: #180840;
-  outline: none;
+  appearance: none;
+  border: 1px solid #F56468;
+	border-radius: 3px;
+	display: inline-block;
+	position: relative;
+  width: 1em;
+  height: 1em;
+}
+
+
+.checkbox-dark:checked {
+  background-color: #F56468;
+  transition: 0.5s;
 }
 
 .text-input-dark {
@@ -32,18 +43,11 @@ input {
   color: #636c72;
 }
 
-.text-infdput-dark{
-    position:relative;
-    left:0;
-    width:0%;
-    height:2px;
-    background-color:#1784E1;
-    border:none;
-    margin-top:0;
-    margin-left:0;
-    margin-bottom:20px;
-    transition:0.5s;
-}
-input:focus + .text-inpdfut-dark{
-    width:100%;
+.text-input-dark-simple {
+  width:90%;
+  color: #CAD0ED;
+  padding-left: 12px;
+  border: none;
+  background-color: #180840;
+  border-bottom: solid 1px #F56468;
 }

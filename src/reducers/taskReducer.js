@@ -6,17 +6,17 @@ const initialState = {
   data: [],
   isPending: false,
   error: false
-}
+};
 
 const PENDING = (state) => ({
 	...state,
 	isPending: true
-})
+});
 
 const REJECTED = (state, action) => ({
 	...state,
 	error: action.payload
-})
+});
 
 export const tasks = typeToReducer({
 	[ActionTypes.FETCH_TASKS]: {
@@ -45,14 +45,13 @@ export const tasks = typeToReducer({
 	[ActionTypes.UPDATE_TASK]: {
 		PENDING,
 		REJECTED,
-		FULFILLED: (state, action, list) => {
-      const idx = state.data.find( item => item.id === list.id );
-      const newData = state.data[idx] = action.payload;
-
+		FULFILLED: (state, action) => {
+      const idx = state.data.findIndex( item => item.id === action.meta.id );
+      state.data[idx] = action.payload;
       return {
 			  error: false,
         isPending: false,
-			  data: newData
+			  data: state.data
 		  }
   }
 	},

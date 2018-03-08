@@ -21,7 +21,7 @@ export const updateTask = task => ({
 	meta: {
 		id: task.id
 	},
-	payload: fetch( VentureDevsAPI + `/todos/${task.id}`, {
+	payload: fetch( VentureDevsAPI + `/todos/${task.id}/`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify( task ),

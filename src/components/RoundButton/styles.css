@@ -2,7 +2,8 @@
   background-color: transparent;
   color: #f56468;
   border-radius: 50%;
-  min-width: 35px;
+  width: 36px;
+  height: 35px;
   border: 3px solid #f56468;
   transition: background-color 0.3s ease-out,
               color 0.3s ease-out;

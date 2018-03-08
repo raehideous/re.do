@@ -1,4 +1,3 @@
-import createReducer from '../lib/createReducer';
 import * as ActionTypes from "../constants/action-types";
 import typeToReducer from 'type-to-reducer'
 
@@ -47,11 +46,10 @@ export const taskLists = typeToReducer({
 		FULFILLED: (state, action) => {
       const idx = state.data.findIndex( item => item.id === action.meta.id );
       state.data[idx] = action.payload;
-      const newData = state.data;
-
+      
       return {
 			  ...initialState,
-			  data: newData
+			  data: state.data
 		  }
   }
 	},
