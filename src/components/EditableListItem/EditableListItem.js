@@ -6,41 +6,46 @@ class EditableListItem extends Component {
     super(props);
 
     this.state = {
-      editing: null
+      newContent: ""
     }
 
 
   }
 
+  handleCancelEdit = () => {
+    this.setState({
+      newContent: ""
+    });
+
+    this.props.onEdited(null);
+  }
+
 
   render () {
-    const { id, name, checked, textStriked, badge, editable, onEdit, onRemove } = this.props;
-    const { editing } = this.state;
+    const { id, name, checked, textStriked, badge, editing, onEdited, onRemove, toggleCheck } = this.props;
+    const { newContent } = this.state;
 
-    const checkbox = checked ? (
+    const checkbox = toggleCheck ? (
       <input type="checkbox"
         checked={checked}
         className="checkbox-dark mr-2"
-        onChange={(e) => onEdit(e.target.checked)}
-        onFocusLost={ (e) => console.log("FOCUS LOST!")}/>
+        onChange={(e) => toggleCheck(e.target.checked, id)} />
     ) : null;
 
-
-
     const editableContent = (
-      <input type="text"
-          className="text-input-dark-simple"
-
-          />
-    )
+      <input type="text" className="text-input-dark-simple"
+          autoFocus
+           value={newContent || name }
+           onChange={ (e) => this.setState({ newContent: e.target.value })}
+           onBlur={ (e) => onEdited() }
+           />
+    );
 
     const contentStyled = textStriked ? (<s>{name}</s>) : name;
-
     const content = editing ? editableContent : contentStyled;
 
     return (
-      <li className="row list-item-dark"
-        onClick={ (e) => { } } >
+      <li className="row list-item-dark" >
 
         <div className="col text-muted my-auto">
             {checkbox}
@@ -53,7 +58,7 @@ class EditableListItem extends Component {
 
           <button className="icon-button-sm box"
             type="button"
-            onClick={ (e) => onEdit(id) }>
+            onClick={ (e) => onEdited(id, newContent) }>
             <i className={editing ? "fa fa-check" : "fa fa-pencil"} />
           </button>
 

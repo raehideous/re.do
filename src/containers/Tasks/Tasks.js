@@ -20,7 +20,7 @@ class Tasks extends Component {
       searchPattern: '',
       activeFilter: items => items,
       changedListName: '',
-      currEditId: null
+      currEditItemId: null
     };
 
 
@@ -45,9 +45,22 @@ class Tasks extends Component {
     this.props.createTask(newTask);
   }
 
-  handleTaskModify = taskId => {
+  handleTaskEdit = (taskId, newTaskName)  => {
+    console.log(taskId, newTaskName)
+
+    let currEditItemId = taskId;
+
+    if(newTaskName) {
+      this.props.updateTask({
+        ...this.props.tasks.data.find( task => task.id === taskId),
+        name: newTaskName
+      });
+
+      currEditItemId = null;
+    }
+
     this.setState({
-      currEditId: taskId
+      currEditItemId: currEditItemId
     });
   }
 
@@ -64,10 +77,10 @@ class Tasks extends Component {
     });
   }
 
-  handleTaskCheck = (evt, taskId) => {
+  handleTaskCheck = (checkVal, taskId) => {
     const updatedTask = {
       ...this.props.tasks.data.find( task => task.id === taskId),
-      'is_complete': evt.target.checked
+      'is_complete': checkVal
     };
 
     this.props.updateTask(updatedTask);
@@ -150,9 +163,10 @@ class Tasks extends Component {
               name={task.name}
               checked={task.is_complete}
               textStriked={task.is_complete}
-              editable={task.id === this.state.currEditId}
-              onEdit={this.handleTaskModify}
+              editing={task.id === this.state.currEditItemId}
+              onEdited={this.handleTaskEdit}
               onRemove={this.handleTaskRemove}
+              toggleCheck={this.handleTaskCheck}
           />
         ) }
       />
