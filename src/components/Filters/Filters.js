@@ -27,8 +27,8 @@ class Filters extends Component {
     const btnClassName ="col ghost-button-thick-border ";
 
     return (
-        <Row role="group">
-          <Col sm="4">
+        <Row>
+          <Col >
             <button
               className={btnClassName + (activeFilter === ALL ? " active" : "")}
               type="button"

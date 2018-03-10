@@ -4,7 +4,7 @@ import * as Strings from '../../constants/strings';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../../actions';
 
-import { Row, Col, Badge, CheckBox, Button } from 'reactstrap';
+import { Row, Col, Badge } from 'reactstrap';
 import Search from '../../components/Search';
 import CreateForm from '../../components/CreateForm';
 import ListItem from '../../components/ListItem';

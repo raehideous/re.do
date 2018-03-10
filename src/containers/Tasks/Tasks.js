@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import * as Strings from '../../constants/strings';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../../actions';
-import { getTaskListById } from '../../actions/taskLists-actions'
+import { getTaskList } from '../../actions/taskLists-actions'
 import './styles.css'
-import { Container, Row, Col, Button } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import { List, ListItem, RoundButton, Search, Filters} from '../../components';
 
 
@@ -15,7 +15,7 @@ class Tasks extends Component {
   state = {
     searchPattern: '',
     activeFilter: items => items,
-    changedListName: this.props.taskList.name,
+    editedListName: '',
     taskToEditId: null,
     editedTaskName: null
   };
@@ -32,7 +32,7 @@ class Tasks extends Component {
     this.props.deleteTask(taskId);
   }
 
-  handleOnCreate = taskName => {
+  handleTaskCreate = taskName => {
     const newTask = {
       "name": taskName,
       "is_complete": false,
@@ -42,8 +42,6 @@ class Tasks extends Component {
   }
 
   handleUpdateTaskName = (taskId, newTaskName)  => {
-    console.log(taskId, newTaskName)
-
     let taskToEditId = taskId;
 
     if(newTaskName) {
@@ -51,7 +49,6 @@ class Tasks extends Component {
         ...this.props.tasks.data.find( task => task.id === taskId),
         name: newTaskName
       });
-
       taskToEditId = null;
     }
 
@@ -63,7 +60,7 @@ class Tasks extends Component {
   handleUpdateListName = () => {
     this.props.updateTaskList({
       ...this.props.taskList,
-      name: this.state.changedListName
+      name: this.state.editedListName
     });
   }
 
@@ -84,17 +81,28 @@ class Tasks extends Component {
 
   componentDidMount() {
     const chosenListID = this.props.match.params.id;
-    if (!this.props.taskList) {
+    if (!this.props.taskLists) {
       this.props.fetchTaskLists();
     }
+    if(this.props.taskList){
+      this.setState({
+        editedListName: this.props.taskList.name
+      });
+    }
     this.props.fetchTasks(chosenListID);
+  }
 
-    this.setState({changedListName: this.props.taskList.name})
+  componentWillReceiveProps = nextProps => {
+    if(nextProps.taskList && !this.props.taskList) {
+      this.setState({
+        editedListName: nextProps.taskList.name
+      });
+    }
   }
 
   onListNameChange = e => {
     this.setState({
-      changedListName: e.target.value
+      editedListName: e.target.value
     })
   }
 
@@ -146,31 +154,29 @@ class Tasks extends Component {
 
   render() {
     const { tasks, taskList } = this.props;
+    const { editedListName } = this.state;
     const data = tasks.data || [];
-
     const filteredTasks = this.state.activeFilter(data.filter( task => task.name.toLowerCase().search(this.state.searchPattern) > -1 ));
-    const listName = taskList ? taskList.name : "";
-
-    const { changedListName } = this.state;
 
     const header = (
       <div >
-
         <Row>
           <Col sm="2">
               <RoundButton icon="chevron-left" onClick={this.handleOnBack} />
           </Col>
+
           <Col>
             <input type="text" className="text-input-dark col"
-                 value={changedListName}
+                 value={editedListName}
                  onChange={this.onListNameChange}
                  placeholder={Strings.LIST_NAME}
             />
           </Col>
+
           <Col sm="2" className="text-right">
             <RoundButton
               icon="check"
-              disabled={!changedListName || changedListName === listName}
+              disabled={!editedListName || editedListName === taskList.name}
               onClick={this.handleUpdateListName} />
           </Col>
         </Row>
@@ -178,12 +184,13 @@ class Tasks extends Component {
         <Row className="mt-3">
           <CreateForm
             placeholder={Strings.CREATE_TASK}
-            onCreate={this.handleOnCreate}/>
+            onCreate={this.handleTaskCreate}/>
         </Row>
         <hr />
+
         <Row>
           <Col sm="6">
-            <Search className="col" onTextChange={this.onNewSearchPattern}/>
+            <Search onTextChange={this.onNewSearchPattern}/>
           </Col>
 
           <Col className="col">
@@ -212,8 +219,6 @@ class Tasks extends Component {
                 {this.getEditOrText(task)}
               </Col>
 
-
-
               <div className="my-auto">
                 <button className="icon-button-sm box"
                   type="button"
@@ -237,13 +242,13 @@ class Tasks extends Component {
   }
 }
 
-const mapStatetoProps = (state, props) => ({
+const mapStateToProps = (state, props) => ({
   tasks: state.tasks,
-  taskList: getTaskListById(state)(props.match.params.id) || {}
+  taskList: getTaskList(state)(props.match.params.id)
 });
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(ActionCreators, dispatch);
 };
 
-export default connect(mapStatetoProps, mapDispatchToProps)(Tasks);
+export default connect(mapStateToProps, mapDispatchToProps)(Tasks);

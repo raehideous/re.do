@@ -4,7 +4,6 @@ import List from './List';
 import ListItem from './ListItem';
 import RoundButton from './RoundButton';
 import Search from './Search';
-import TextInput from './TextInput';
 
 export  {
   CreateForm,
@@ -12,6 +11,5 @@ export  {
   List,
   ListItem,
   RoundButton,
-  Search,
-  TextInput,
+  Search
 }

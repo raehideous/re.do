@@ -38,6 +38,7 @@ export const deleteTaskList = listId => ({
     })
 });
 
-export const getTaskListById = state => id => {
-		return state.taskLists.data.find( list => list.id === +id);
+export const getTaskList = state => listId => {
+	const list = state.taskLists.data.find( list => list.id === +listId);
+	return list;
 }

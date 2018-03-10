@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import * as Strings from '../../constants/strings';
 import { Row, Container, Col } from "reactstrap";
-import TextInput from '../TextInput';
 
 class CreateForm extends Component {
   constructor() {
