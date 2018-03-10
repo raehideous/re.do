@@ -9,3 +9,4 @@ export const ALL = "All";
 export const COMPLETED = "Completed";
 export const INCOMPLETED = "Incompleted";
 export const LIST_NAME = "List name";
+export const TASK_NAME = "Task name";

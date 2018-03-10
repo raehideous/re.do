@@ -4,10 +4,11 @@ import * as Strings from '../../constants/strings';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../../actions';
 
+import { Row, Col, Badge, CheckBox, Button } from 'reactstrap';
 import Search from '../../components/Search';
 import CreateForm from '../../components/CreateForm';
-import List from '../../components/List';
 import ListItem from '../../components/ListItem';
+import List from '../../components/List';
 
 
 class TaskLists extends Component {
@@ -48,17 +49,13 @@ class TaskLists extends Component {
       <List
         header={
           <div className="mt-3">
-
               <h2 className="text-muted">{Strings.AVAILABLE_LISTS}</h2>
-
-              <div className="row mt-3">
+              <Row className="mt-3">
                 <CreateForm
                   placeholder={Strings.CREATE_LIST}
                   onCreate={this.handleOnCreate}/>
-              </div>
+              </Row>
               <hr />
-
-
               <Search  onTextChange={this.onNewSearchPattern}/>
           </div>
         }
@@ -66,13 +63,35 @@ class TaskLists extends Component {
         datasource={filteredTaskLists}
         renderRow={ taskList => (
           <ListItem
-              key={taskList.id}
-              id={taskList.id}
-              name={taskList.name}
-              badge={taskList.todos_count}
-              onEdit={this.handleListOpen}
-              onRemove={this.handleListRemove}
-          />
+            key={taskList.id}>
+            <Row>
+              <Col className="text-muted my-auto">
+                  <span>
+                    {taskList.name}
+                  </span>
+              </Col>
+
+
+              <div className="my-auto">
+                <Badge className="badge-dark box">
+                  {taskList.todos_count}
+                </Badge>
+
+                <button className="icon-button-sm box"
+                  type="button"
+                  onClick={ (e) => this.handleListOpen(taskList.id) }>
+                  <i className={"fa fa-edit"} />
+                </button>
+
+                <button className="icon-button-sm box"
+                  type="button"
+                  onClick={ (e) => this.handleListRemove(taskList.id) }>
+                  <i className="fa fa-trash" />
+                </button>
+              </div>
+
+            </Row>
+          </ListItem>
         ) }
       />
 		);
@@ -90,57 +109,3 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStatetoProps, mapDispatchToProps)(TaskLists);
-
-/*
-
-
-
-<div className="mt-2">
-  <div className="container">
-
-    <div className="row">
-      <div className="ml-3">
-        <h3 className="text-muted">{Strings.AVAILABLE_LISTS}</h3>
-      </div>
-    </div>
-
-    <CreateForm
-      placeholder={Strings.CREATE_LIST}
-      onCreate={this.handleOnCreate}/>
-    <hr />
-    <Search onTextChange={this.onNewSearchPattern}/>
-
-    <ul className="container list-dark">
-      {filteredTaskLists.map( list => {
-        return (
-          <li className="row list-item-dark"
-            key={list.id}
-             >
-
-            <div className="col my-auto">
-              <div className="text-muted" >
-                {list.name}
-
-              </div>
-            </div>
-
-
-            <div className="my-auto">
-              <span className="badge app-badge badge-pill box">{list.todos_count}</span>
-
-              <button className="icon-button-sm box"
-                onClick={ (e) => this.handleOpenList(list) }>
-                <i className="fa fa-edit" />
-              </button>
-
-              <button className="icon-button-sm box"
-                onClick={ (e) => this.handleListRemove(list) }>
-                <i className="fa fa-trash" />
-              </button>
-            </div>
-          </li>
-        )
-      })}
-    </ul>
-  </div>
-</div>*/

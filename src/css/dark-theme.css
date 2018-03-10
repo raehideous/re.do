@@ -1,0 +1,15 @@
+.badge-dark {
+  background-color: #27184F;
+  color: #F56468;
+  border: 1px solid #110336;
+  border-radius: 5em;
+}
+
+.text-dark {
+  color: #ff0000 !important;
+}
+
+.list-dark {
+  margin-top: 1.5em;
+  border: 1px solid #110336;
+}

@@ -1,9 +1,7 @@
 .list-item-dark {
-  background-color: #180840;
-  min-height: 3em;
-  border-bottom: 1px solid #110336;
+  background-color: #180840 !important;
 }
 
 .list-item-dark:hover {
-  background-color: #27184F;
+  background-color: #27184F !important;
 }

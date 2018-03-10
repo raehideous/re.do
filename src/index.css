@@ -10,15 +10,10 @@ body {
   background-color: #27184f;
 }
 
-
-.TEST1 {
-  background-color: #fa0000;
+input {
+outline: none !important;
 }
 
-.TEST2 {
-  background-color: #00fa00;
-}
-
-.TEST2 {
-  background-color: #0000fa;
+.box {
+  margin: 0 0.5em 0 0.5em;
 }

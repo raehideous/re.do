@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as Strings from '../../constants/strings';
+import { Row, Col } from 'reactstrap';
 
 const FILTERS = {
   ALL: items => { return items },
@@ -21,40 +22,39 @@ class Filters extends Component {
   }
 
   render() {
-    const { onFilterChange } = this.props;
     const { activeFilter } = this.state;
     const { ALL, COMPLETED, INCOMPLETED } = FILTERS;
     const btnClassName ="col ghost-button-thick-border ";
 
     return (
-        <div className="row" role="group">
-          <div className="col-sm-4">
+        <Row role="group">
+          <Col sm="4">
             <button
               className={btnClassName + (activeFilter === ALL ? " active" : "")}
               type="button"
               onClick={ () => this.handleOnFilterClick(ALL) } >
               {Strings.ALL}
             </button>
-          </div>
+          </Col>
 
-          <div className="col">
+          <Col>
             <button
               type="button"
               className={btnClassName + (activeFilter === COMPLETED ? " active" : "")}
               onClick={ () => this.handleOnFilterClick(COMPLETED) } >
               {Strings.COMPLETED}
             </button>
-          </div>
+          </Col>
 
-          <div className="col">
+          <Col>
             <button
               type="button"
               className={btnClassName + (activeFilter === INCOMPLETED ? "active" : "")}
               onClick={ () => this.handleOnFilterClick(INCOMPLETED) } >
               {Strings.INCOMPLETED}
             </button>
-          </div>
-       </div>
+          </Col>
+       </Row>
     )
   }
 }

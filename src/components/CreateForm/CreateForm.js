@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { ActionCreators } from '../../actions';
 import * as Strings from '../../constants/strings';
+import { Row, Container, Col } from "reactstrap";
+import TextInput from '../TextInput';
 
 class CreateForm extends Component {
   constructor() {
@@ -22,19 +21,13 @@ class CreateForm extends Component {
     this.setState( { inputText: "" } );
   }
 
-  catchReturn = (evt) => {
-    if ( evt.key === 'Enter' ) {
-      this.handleOnCreate();
-      evt.preventDefault();
-    }
-  }
 
 
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-sm-9">
+      <Container >
+        <Row>
+          <Col sm="9">
             <input
               type="text"
               className="text-input-dark"
@@ -42,32 +35,19 @@ class CreateForm extends Component {
               value={ this.state.inputText }
               onChange={ this.handleChange( 'inputText') }
               onKeyPress={ this.catchReturn }/>
-          </div>
+          </Col>
 
-          <div className="col-sm-3">
+          <Col sm="3">
             <button className="ghost-button-thick-border col"
               onClick={this.handleOnCreate}>
               {Strings.CREATE}
             </button>
-          </div>
-        </div>
-      </div>
-
+          </Col>
+        </Row>
+      </Container>
     )
   }
 
 }
 
-
-const mapStateToProps = state => {
-  return {
-    taskLists: state.taskLists
-  };
-}
-
-
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators(ActionCreators, dispatch);
-}
-
-export default connect( mapStateToProps, mapDispatchToProps )( CreateForm );
+export default CreateForm;

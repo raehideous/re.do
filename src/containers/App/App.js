@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import TaskLists from '../TaskLists';
 import { history } from '../../store'
 import Tasks from '../Tasks';
+import { Container, Col } from 'reactstrap';
 import './styles.css';
 
 class App extends Component {
@@ -14,14 +15,16 @@ class App extends Component {
           <h1 className="App-title">Welcome to Re.do lists</h1>
         </header>
 
-        <div className="container col-md-6 .offset-md-3">
-          <ConnectedRouter history={history}>
-            <Switch>
-              <Route exact path="/" component={TaskLists} />
-              <Route path="/list/:id" component={Tasks} />
-            </Switch>
-          </ConnectedRouter>
-        </div>
+        <Container className="mt-3">
+          <Col sm="12" md={{ size: 8, offset: 2 }}>
+            <ConnectedRouter history={history}>
+              <Switch>
+                <Route exact path="/" component={TaskLists} />
+                <Route path="/list/:id" component={Tasks} />
+              </Switch>
+            </ConnectedRouter>
+          </Col>
+        </Container>
 
       </div>
     );

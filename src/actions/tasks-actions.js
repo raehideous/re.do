@@ -33,7 +33,7 @@ export const deleteTask = taskId => ({
 	meta: {
 		id: taskId
 	},
-	payload: fetch( VentureDevsAPI + `/todolists/${taskId}/`, {
+	payload: fetch( VentureDevsAPI + `/todos/${taskId}/`, {
       method: 'DELETE',
     }),
 });

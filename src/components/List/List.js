@@ -1,6 +1,6 @@
 import React from 'react';
 import './styles.css';
-
+import { ListGroup } from 'reactstrap';
 
 const List = ( {header, datasource, renderRow} ) => {
   return (
@@ -9,9 +9,9 @@ const List = ( {header, datasource, renderRow} ) => {
         {header}
       </div>
 
-      <ul className="container list-dark">
+      <ListGroup className="list-dark">
           {datasource.map( item => renderRow(item) )}
-      </ul>
+      </ListGroup>
 
     </div>
   )

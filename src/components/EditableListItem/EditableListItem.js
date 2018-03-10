@@ -1,75 +1,79 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import * as Strings from '../../constants/strings';
+import { Row, Col } from 'reactstrap';
 
 class EditableListItem extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      newContent: ""
+    state = {
+      modifiedText: this.props.text,
+      isEditing: false
     }
 
 
+  handleIsEditingTransition = prevEditingState => {
+    const { modifiedText } = this.state;
+    const { text, id, onSave } = this.props;
+    // nextEditingState will be !prevEditingState
+    //If edit mode has just been turned on then no action perfomed
+    if(!prevEditingState) {
+      return;
+    }
+    //If modified text is the same then there is no 'onSave' invoked.
+    if(modifiedText === text) {
+      return;
+    }
+    //If edit mode goes off, then persist modified text
+    onSave(id, modifiedText);
   }
 
-  handleCancelEdit = () => {
+
+  toggleIsEditing = () => {
+    const { isEditing } = this.state;
+    //If a moment ago was edit mode on
+    this.handleIsEditingTransition(isEditing)
+    this.setState({isEditing: !isEditing});
+  }
+
+  setEditingModeOff = () => {
     this.setState({
-      newContent: ""
+      isEditing: false,
+      modifiedText: this.props.text
     });
+  }
 
-    this.props.onEdited(null);
+  moveCaretAtEnd = e => {
+    let val = e.target.value;
+    e.target.value = '';
+    e.target.value = val;
   }
 
 
-  render () {
-    const { id, name, checked, textStriked, badge, editing, onEdited, onRemove, toggleCheck } = this.props;
-    const { newContent } = this.state;
+  render() {
+    const { children, id, text, checked, textStriked, badge, onRemove, toggleCheck } = this.props;
+    const { modifiedText, isEditing } = this.state;
 
     const checkbox = toggleCheck ? (
-      <input type="checkbox"
-        checked={checked}
-        className="checkbox-dark mr-2"
-        onChange={(e) => toggleCheck(e.target.checked, id)} />
+      />
     ) : null;
 
     const editableContent = (
-      <input type="text" className="text-input-dark-simple"
-          autoFocus
-           value={newContent || name }
-           onChange={ (e) => this.setState({ newContent: e.target.value })}
-           onBlur={ (e) => onEdited() }
-           />
-    );
+      <span>
+        <input type="text" className="text-input-dark-simple"
+          autoFocus={true}
+          value={modifiedText}
+          onChange={ (e) => this.setState({ modifiedText: e.target.value })}
+          onFocus={this.moveCaretAtEnd}
+          onBlur={this.setEditingModeOff}
+          placeholder={Strings.TASK_NAME}
+        />
+      </span>
+    )
 
-    const contentStyled = textStriked ? (<s>{name}</s>) : name;
-    const content = editing ? editableContent : contentStyled;
+    const contentStyled = textStriked ? (<s>{text}</s>) : text;
+    const content = isEditing ? editableContent : contentStyled;
 
     return (
-      <li className="row list-item-dark" >
-
-        <div className="col text-muted my-auto">
-            {checkbox}
-            {content}
-        </div>
-
-
-        <div className="my-auto">
-          <span className="badge app-badge badge-pill box">{badge}</span>
-
-          <button className="icon-button-sm box"
-            type="button"
-            onClick={ (e) => onEdited(id, newContent) }>
-            <i className={editing ? "fa fa-check" : "fa fa-pencil"} />
-          </button>
-
-          <button className="icon-button-sm box"
-            type="button"
-            onClick={ (e) => onRemove(id) }>
-            <i className="fa fa-trash" />
-          </button>
-        </div>
-
-      </li>
+      null;
     )
   }
 
@@ -78,9 +82,9 @@ class EditableListItem extends Component {
 EditableListItem.propTypes = {
   id: PropTypes.number,
   checkable: PropTypes.bool,
-  content: PropTypes.string,
+  text: PropTypes.string,
   badge: PropTypes.string,
-  onEdit: PropTypes.func,
+  onSave: PropTypes.func,
   onDelete: PropTypes.func,
 
 }

@@ -1,28 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import '../../css/list.css';
 import * as Strings from '../../constants/strings';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../../actions';
 import { getTaskListById } from '../../actions/taskLists-actions'
+import './styles.css'
+import { Container, Row, Col, Button } from 'reactstrap';
+import { List, ListItem, RoundButton, Search, Filters} from '../../components';
 
-import List from '../../components/List';
-import EditableListItem from '../../components/EditableListItem';
-import RoundButton from '../../components/RoundButton';
-import Search from '../../components/Search';
-import Filters from '../../components/Filters';
 
 import CreateForm from '../../components/CreateForm';
 
 class Tasks extends Component {
-
-    state = {
-      searchPattern: '',
-      activeFilter: items => items,
-      changedListName: '',
-      currEditItemId: null
-    };
-
+  state = {
+    searchPattern: '',
+    activeFilter: items => items,
+    changedListName: this.props.taskList.name,
+    taskToEditId: null,
+    editedTaskName: null
+  };
 
   onNewSearchPattern = evt => {
     this.setState({searchPattern: evt.target.value.toLowerCase()})
@@ -45,10 +41,10 @@ class Tasks extends Component {
     this.props.createTask(newTask);
   }
 
-  handleTaskEdit = (taskId, newTaskName)  => {
+  handleUpdateTaskName = (taskId, newTaskName)  => {
     console.log(taskId, newTaskName)
 
-    let currEditItemId = taskId;
+    let taskToEditId = taskId;
 
     if(newTaskName) {
       this.props.updateTask({
@@ -56,11 +52,11 @@ class Tasks extends Component {
         name: newTaskName
       });
 
-      currEditItemId = null;
+      taskToEditId = null;
     }
 
     this.setState({
-      currEditItemId: currEditItemId
+      taskToEditId: taskToEditId
     });
   }
 
@@ -92,6 +88,8 @@ class Tasks extends Component {
       this.props.fetchTaskLists();
     }
     this.props.fetchTasks(chosenListID);
+
+    this.setState({changedListName: this.props.taskList.name})
   }
 
   onListNameChange = e => {
@@ -100,7 +98,52 @@ class Tasks extends Component {
     })
   }
 
-//<h3 className="text-muted">{this.props.taskList.name}</h3>
+  getEditOrText = task => {
+    if(this.state.taskToEditId === task.id) {
+        const moveCaretAtEnd = e => {
+          const val = e.target.value;
+          e.target.value = '';
+          e.target.value = val;
+        }
+
+        return (
+          <span>
+            <input type="text" className="text-input-dark-simple"
+              autoFocus={true}
+              value={this.state.editedTaskName}
+              onChange={ (e) => this.setState({ editedTaskName: e.target.value })}
+              onFocus={moveCaretAtEnd}
+              placeholder={Strings.TASK_NAME}
+            />
+          </span>
+        )
+    }
+
+    //Return text:
+    return (
+      <span className={ task.is_complete ? "text-striked" : ""}>
+        {task.name}
+      </span>
+    )
+  }
+
+  handleEditOrSave = task => {
+      if(this.state.taskToEditId === task.id) {
+        //save
+        this.handleUpdateTaskName(task.id, this.state.editedTaskName);
+        this.setState({
+          taskToEditId: null,
+          editedTaskName: null
+        });
+        return;
+      }
+
+      this.setState({
+        taskToEditId: task.id,
+        editedTaskName: task.name
+      });
+  }
+
   render() {
     const { tasks, taskList } = this.props;
     const data = tasks.data || [];
@@ -110,64 +153,83 @@ class Tasks extends Component {
 
     const { changedListName } = this.state;
 
+    const header = (
+      <div >
+
+        <Row>
+          <Col sm="2">
+              <RoundButton icon="chevron-left" onClick={this.handleOnBack} />
+          </Col>
+          <Col>
+            <input type="text" className="text-input-dark col"
+                 value={changedListName}
+                 onChange={this.onListNameChange}
+                 placeholder={Strings.LIST_NAME}
+            />
+          </Col>
+          <Col sm="2" className="text-right">
+            <RoundButton
+              icon="check"
+              disabled={!changedListName || changedListName === listName}
+              onClick={this.handleUpdateListName} />
+          </Col>
+        </Row>
+
+        <Row className="mt-3">
+          <CreateForm
+            placeholder={Strings.CREATE_TASK}
+            onCreate={this.handleOnCreate}/>
+        </Row>
+        <hr />
+        <Row>
+          <Col sm="6">
+            <Search className="col" onTextChange={this.onNewSearchPattern}/>
+          </Col>
+
+          <Col className="col">
+            <Filters onFilterChange={this.handleNewFilter} />
+          </Col>
+        </Row>
+      </div>
+    )
+
     return (
       <List
-        header={
-          <div className="mt-3">
-
-            <div className="row">
-                  <div className="col-sm-2">
-                      <RoundButton icon="chevron-left" onClick={this.handleOnBack} />
-                  </div>
-
-                  <div className="col">
-                    <input type="text" className="text-input-dark col"
-                         value={changedListName || listName }
-                         onChange={this.onListNameChange}
-                         placeholder={Strings.LIST_NAME}
-                         />
-                  </div>
-
-                  <div className="col-sm-2 text-right">
-                    <RoundButton
-                       icon="check"
-                      disabled={!changedListName || changedListName === listName}
-                      onClick={this.handleUpdateListName} />
-                  </div>
-            </div>
-
-            <div className="row mt-3">
-              <CreateForm
-                placeholder={Strings.CREATE_TASK}
-                onCreate={this.handleOnCreate}/>
-            </div>
-            <hr />
-
-
-            <div className="row mt-3">
-              <div className="col-sm-6">
-                <Search className="col" onTextChange={this.onNewSearchPattern}/>
-              </div>
-
-              <div className="col">
-                <Filters onFilterChange={this.handleNewFilter} />
-              </div>
-            </div>
-          </div>
-        }
+        header={header}
         datasource={filteredTasks}
         renderRow={ task => (
-          <EditableListItem
-              key={task.id}
-              id={task.id}
-              name={task.name}
-              checked={task.is_complete}
-              textStriked={task.is_complete}
-              editing={task.id === this.state.currEditItemId}
-              onEdited={this.handleTaskEdit}
-              onRemove={this.handleTaskRemove}
-              toggleCheck={this.handleTaskCheck}
-          />
+          <ListItem
+              key={task.id} >
+
+            <Row>
+
+              <Col className="col text-muted my-auto">
+                <input type="checkbox"
+                  checked={task.is_complete}
+                  className="checkbox-dark mr-2"
+                  onChange={(e) => this.handleTaskCheck(e.target.checked, task.id)} />
+
+                {this.getEditOrText(task)}
+              </Col>
+
+
+
+              <div className="my-auto">
+                <button className="icon-button-sm box"
+                  type="button"
+                  onClick={ (e) => this.handleEditOrSave(task) }>
+                  <i className={this.state.taskToEditId === task.id ? "fa fa-check" : "fa fa-pencil"} />
+                </button>
+
+                <button className="icon-button-sm box"
+                  type="button"
+                  onClick={ (e) => this.handleTaskRemove(task.id) }>
+                  <i className="fa fa-trash" />
+                </button>
+              </div>
+
+            </Row>
+        </ListItem>
         ) }
       />
 		);
@@ -177,7 +239,7 @@ class Tasks extends Component {
 
 const mapStatetoProps = (state, props) => ({
   tasks: state.tasks,
-  taskList: getTaskListById(state)(props.match.params.id)
+  taskList: getTaskListById(state)(props.match.params.id) || {}
 });
 
 const mapDispatchToProps = dispatch => {

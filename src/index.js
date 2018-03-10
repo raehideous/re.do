@@ -7,6 +7,7 @@ import 'font-awesome/css/font-awesome.min.css';
 import './css/buttons.css';
 import './css/inputs.css';
 import './index.css';
+import './css/dark-theme.css';
 
 import store from './store';
 

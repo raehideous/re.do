@@ -1,7 +1,7 @@
 .icon-button-sm {
   background-color: transparent;
-  width: 2em;
-  height: 2em;
+  outline: none !important;
+  width: 2.3em;
   color: #f56468;
   border: 1px solid #f56468;
   border-radius: 5px;
@@ -14,6 +14,8 @@
   cursor: pointer;
   color: #27184f;
   background-color: #f56468;
+  border-color: #f56468;
+  outline: none !important;
   transition: background-color 0.2s ease-in,
               color 0.2s ease-in;
 }
